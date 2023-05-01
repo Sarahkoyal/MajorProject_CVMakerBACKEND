@@ -1,0 +1,81 @@
+package com.majorproject.cvmaker.Service;
+
+import com.majorproject.cvmaker.Entity.EducationFormEntity;
+import com.majorproject.cvmaker.Entity.SkillsFormEntity;
+import com.majorproject.cvmaker.Entity.UserEntity;
+import com.majorproject.cvmaker.Entity.WorkExpFormEntity;
+import com.majorproject.cvmaker.Models.SuccessReponseModel;
+import com.majorproject.cvmaker.Repository.UserJpaRepository;
+import com.majorproject.cvmaker.Repository.WorkExpFormRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+
+@Service
+@RequiredArgsConstructor
+public class WorkExpFormService {
+    private final UserJpaRepository userJpaRepository;
+
+    private final WorkExpFormRepository workExpFormRepository;
+
+    public SuccessReponseModel addNewWorkExp(WorkExpFormEntity workExpForm, Long userId) {
+        Optional<UserEntity> user = this.userJpaRepository.findById(userId);
+        Map<String, Object> map = new HashMap<>();
+        if (user.isPresent()) {
+            WorkExpFormEntity newSkills = WorkExpFormEntity.builder()
+                    .userGivenString(workExpForm.getUserGivenString())
+                    .aiGeneratedText(workExpForm.getAiGeneratedText())
+                    .user(user.get())
+                    .createdAt(new Date())
+                    .build();
+
+            this.workExpFormRepository.save(newSkills);
+
+            map.put("msg", "CREATED");
+            return SuccessReponseModel.builder()
+                    .body(map)
+                    .statusCode(HttpStatus.CREATED.value())
+                    .httpStatus(HttpStatus.CREATED)
+                    .timeStamp(Instant.now())
+                    .build();
+        }
+
+        map.put("msg", "NOT CREATED");
+        return SuccessReponseModel.builder()
+                .body(map)
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .timeStamp(Instant.now())
+                .build();
+    }
+
+    public SuccessReponseModel retrieve(Long userId) {
+        WorkExpFormEntity byId = this.workExpFormRepository.findRecentData(userId);
+        Map<String, Object> data = new HashMap<>();
+        if(byId != null){
+            data.put("userGivenData", byId.getUserGivenString());
+            data.put("aiGeneratedText", byId.getAiGeneratedText());
+            data.put("id", byId.getProfileId().toString());
+            return SuccessReponseModel.builder()
+                    .timeStamp(Instant.now())
+                    .httpStatus(HttpStatus.OK)
+                    .statusCode(HttpStatus.OK.value())
+                    .body(data)
+                    .build();
+        }
+        data.put("msg", "No Data found");
+        return SuccessReponseModel.builder()
+                .timeStamp(Instant.now())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .body(data)
+                .build();
+    }
+}
