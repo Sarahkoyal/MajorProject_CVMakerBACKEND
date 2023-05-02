@@ -36,9 +36,9 @@ public class WorkExpFormService {
                     .createdAt(new Date())
                     .build();
 
-            this.workExpFormRepository.save(newSkills);
+            WorkExpFormEntity savedData = this.workExpFormRepository.save(newSkills);
 
-            map.put("msg", "CREATED");
+            map.put("data", savedData);
             return SuccessReponseModel.builder()
                     .body(map)
                     .statusCode(HttpStatus.CREATED.value())

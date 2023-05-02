@@ -35,9 +35,9 @@ public class EducationFormService {
                     .createdAt(new Date())
                     .build();
 
-            this.educationFormRepository.save(newProfile);
+            EducationFormEntity savedData = this.educationFormRepository.save(newProfile);
 
-            map.put("msg", "CREATED");
+            map.put("data", savedData);
             return SuccessReponseModel.builder()
                     .body(map)
                     .statusCode(HttpStatus.CREATED.value())

@@ -35,9 +35,9 @@ public class ProfileFormService {
                     .createdAt(new Date())
                     .build();
 
-            this.profileFormRepository.save(newProfile);
+            ProfileFormEntity savedData = this.profileFormRepository.save(newProfile);
 
-            map.put("msg", "CREATED");
+            map.put("data", savedData);
             return SuccessReponseModel.builder()
                     .body(map)
                     .statusCode(HttpStatus.CREATED.value())

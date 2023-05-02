@@ -35,9 +35,9 @@ public class LanguageFormService {
                     .createdAt(new Date())
                     .build();
 
-            this.languageFormRepository.save(newProfile);
+            LanguageFormEntity savedData = this.languageFormRepository.save(newProfile);
 
-            map.put("msg", "CREATED");
+            map.put("data", savedData);
             return SuccessReponseModel.builder()
                     .body(map)
                     .statusCode(HttpStatus.CREATED.value())

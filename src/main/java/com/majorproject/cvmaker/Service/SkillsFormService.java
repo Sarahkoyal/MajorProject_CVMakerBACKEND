@@ -36,9 +36,9 @@ public class SkillsFormService {
                     .createdAt(new Date())
                     .build();
 
-            this.skillsFormRepository.save(newSkills);
+            SkillsFormEntity savedData = this.skillsFormRepository.save(newSkills);
 
-            map.put("msg", "CREATED");
+            map.put("data", savedData);
             return SuccessReponseModel.builder()
                     .body(map)
                     .statusCode(HttpStatus.CREATED.value())

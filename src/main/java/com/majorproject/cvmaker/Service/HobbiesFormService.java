@@ -36,9 +36,9 @@ public class HobbiesFormService {
                     .createdAt(new Date())
                     .build();
 
-            this.hobbiesFormRepository.save(newSkills);
+            HobbiesFormEntity savedData = this.hobbiesFormRepository.save(newSkills);
 
-            map.put("msg", "CREATED");
+            map.put("data", savedData);
             return SuccessReponseModel.builder()
                     .body(map)
                     .statusCode(HttpStatus.CREATED.value())
