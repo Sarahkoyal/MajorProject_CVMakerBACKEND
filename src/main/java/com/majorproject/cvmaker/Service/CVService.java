@@ -23,6 +23,7 @@ public class CVService {
     private final CVRepository cvRepository;
     private final ProfileFormRepository profileFormRepository;
     private final EducationFormRepository educationFormRepository;
+    private final WorkExpFormRepository workExpFormRepository;
     private final SkillsFormRepository skillsFormRepository;
     private final LanguageFormRepository languageFormRepository;
     private final HobbiesFormRepository hobbiesFormRepository;
@@ -35,6 +36,7 @@ public class CVService {
                     .cvName(cv.getCvName())
                     .profileId(cv.getProfileId())
                     .educationId(cv.getEducationId())
+                    .workExpId(cv.getWorkExpId())
                     .hobbiesId(cv.getHobbiesId())
                     .languageId(cv.getLanguageId())
                     .skillsId(cv.getSkillsId())
@@ -66,6 +68,7 @@ public class CVService {
         if (byId.isPresent()) {
             data.put("profile", this.profileFormRepository.findById(byId.get().getProfileId()).get().getAiGeneratedText());
             data.put("education", this.educationFormRepository.findById(byId.get().getEducationId()).get().getAiGeneratedText());
+            data.put("workExp", this.workExpFormRepository.findById(byId.get().getWorkExpId()).get().getAiGeneratedText());
             data.put("skills", this.skillsFormRepository.findById(byId.get().getSkillsId()).get().getAiGeneratedText());
             data.put("languages", this.languageFormRepository.findById(byId.get().getLanguageId()).get().getAiGeneratedText());
             data.put("hobbies", this.hobbiesFormRepository.findById(byId.get().getHobbiesId()).get().getAiGeneratedText());

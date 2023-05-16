@@ -28,6 +28,7 @@ public class CVEntity {
     private UserEntity userId;
     private Long profileId;
     private Long educationId;
+    private Long workExpId;
     private Long skillsId;
     private Long languageId;
     private Long hobbiesId;
